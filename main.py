@@ -19,7 +19,10 @@ def main() -> None:
     text = LINE.strip()
     assert 1 <= len(text) <= 200, f"entry is {len(text)} chars, must be 1-200"
     assert "\n" not in text, "entry must be a single line"
-    out_dir = "/output"
+    assert text == text.strip(), "entry must not start or end with whitespace"
+    # The grader mounts /output; honour OUTPUT_DIR so the same program
+    # can be run locally without root-owned paths.
+    out_dir = os.environ.get("OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
     with open(path, "w", encoding="utf-8") as f:
